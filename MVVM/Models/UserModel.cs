@@ -22,12 +22,19 @@ namespace DataAnalysisApplication.MVVM.Models
             WorseResult = worseResult;
         }
 
-        public UserModel(string user, Dictionary<int, int> steps)
+        public UserModel(string user, Dictionary<int, int> steps, int days)
         {
             User = user;
             AverageSteps = (int)steps.Values.Average();
             BestResult = steps.Values.Max();
-            WorseResult = steps.Values.Min();
+            if (steps.Count<days)
+            {
+                WorseResult = 0;
+            }
+            else
+            {
+                WorseResult = steps.Values.Min();
+            }
             Steps = steps;
         }
     }

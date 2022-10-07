@@ -20,8 +20,24 @@ namespace DataAnalysisApplication.MVVM.ViewModels
         private int _days;
         private int _maxSteps;
 
-        private int _selectedIndex=1;
         private ChartValues<ObservablePoint> _sineGraphValues;
+
+        private UserModel _selectedItem;
+
+        public UserModel SelectedItem
+        {
+            get
+            {
+                return _selectedItem;
+            }
+            set
+            {
+                _selectedItem = value;
+                OnPropertyChanged();
+
+                ChangeSineGraphValues();
+            }
+        }
 
         public ChartValues<ObservablePoint> SineGraphValues 
         {
@@ -45,21 +61,6 @@ namespace DataAnalysisApplication.MVVM.ViewModels
             set
             {
                 _days = value;
-                OnPropertyChanged();
-            }
-        }
-        public int SelectedIndex
-        {
-            get
-            {
-                return _selectedIndex;
-            }
-            set
-            {
-                _selectedIndex = value;
-                Console.WriteLine(value);
-                ChangeSineGraphValues();
-
                 OnPropertyChanged();
             }
         }
@@ -96,15 +97,15 @@ namespace DataAnalysisApplication.MVVM.ViewModels
             MaxSteps = 100000;
             races = UserRepository.GetRaces(Days);
             Users = UserRepository.GetUsers(races,Days);
-
+            SelectedItem = Users[0];
             ChangeSineGraphValues();
         }
 
         private void ChangeSineGraphValues()
         {
-            MaxSteps = Users[SelectedIndex].BestResult + 10000;
+            UserModel SelectedUser = Users.Where(x=> x.User == SelectedItem.User).First();
+            MaxSteps = SelectedUser.BestResult + 10000;
             var chart= new ChartValues<ObservablePoint>();
-            UserModel SelectedUser = Users[SelectedIndex];
             for (int x = 0; x < Days; x++)
             {
                 var point = new ObservablePoint()

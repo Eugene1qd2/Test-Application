@@ -45,7 +45,7 @@
                   VerticalAlignment="Top" 
                   Grid.Row="1" 
                   Grid.Column="0" 
-                  SelectedIndex="{Binding SelectedIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                  SelectedItem="{Binding SelectedItem, Mode=Twoway, UpdateSourceTrigger=PropertyChanged}"
                   ItemsSource="{Binding Users, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                   AutoGenerateColumns="False" 
                   HorizontalAlignment="Left" Width="457">
@@ -57,7 +57,7 @@
             </DataGrid.Columns>
         </DataGrid>
         <Grid Grid.Row="1" Grid.Column="1" Margin="10">
-            <lchart:CartesianChart ZoomingSpeed="-1">
+            <lchart:CartesianChart ZoomingSpeed="-1" DisableAnimations="True">
                 <lchart:CartesianChart.DataTooltip>
                     <lchart:DefaultTooltip Foreground="#233055" Background="AliceBlue"/>
                 </lchart:CartesianChart.DataTooltip>

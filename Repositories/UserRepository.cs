@@ -30,7 +30,7 @@ namespace DataAnalysisApplication.Repositories
 
             foreach (var userStat in UserStats)
             {
-                users.Add(new UserModel(userStat.Key, userStat.Value));
+                users.Add(new UserModel(userStat.Key, userStat.Value, days));
             }
             return users;
         }
