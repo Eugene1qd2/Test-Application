@@ -7,7 +7,7 @@
         xmlns:vm="clr-namespace:DataAnalysisApplication.MVVM.ViewModels"
         xmlns:lchart="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         mc:Ignorable="d"
-        Title="DataAnalysis" Height="650" Width="1200" Closed="Window_Closed">
+        Title="DataAnalysis" Height="710" Width="1200" Closed="Window_Closed" MinWidth="1200" MinHeight="710">
     <Window.DataContext>
         <vm:DataAnalysisWindowViewModel/>
     </Window.DataContext>
@@ -40,22 +40,40 @@
                    FontFamily="Arial"
                    FontSize="16"
                    FontWeight="Medium"/>
-        <DataGrid Height="559" 
-                  Margin="10,10,0,0" 
-                  VerticalAlignment="Top" 
-                  Grid.Row="1" 
-                  Grid.Column="0" 
+        <StackPanel Grid.Row="1" 
+                  Grid.Column="0" >
+            <DataGrid Height="559" 
                   SelectedItem="{Binding SelectedItem, Mode=Twoway, UpdateSourceTrigger=PropertyChanged}"
                   ItemsSource="{Binding Users, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                   AutoGenerateColumns="False" 
-                  HorizontalAlignment="Left" Width="457">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="ФИО" Width="200" Binding="{Binding Path=User, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                <DataGridTextColumn Header="Средние шаги" Width="90" Binding="{Binding Path=AverageSteps, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                <DataGridTextColumn Header="Лучший" Width="80" Binding="{Binding Path=BestResult, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                <DataGridTextColumn Header="Худший" Width="1*" Binding="{Binding Path=WorseResult, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            </DataGrid.Columns>
-        </DataGrid>
+                  HorizontalAlignment="Center" 
+                  Width="457"
+                  Margin="10">
+                <DataGrid.RowStyle>
+                    <Style TargetType="DataGridRow">
+                        <Setter Property="Background" Value="White"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsDiffer,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Value="true">
+                                <Setter Property="Background" Value="Orange"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </DataGrid.RowStyle>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="ФИО" Width="200" Binding="{Binding Path=User, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <DataGridTextColumn Header="Средние шаги" Width="90" Binding="{Binding Path=AverageSteps, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <DataGridTextColumn Header="Лучший" Width="80" Binding="{Binding Path=BestResult, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <DataGridTextColumn Header="Худший" Width="1*" Binding="{Binding Path=WorseResult, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <DataGridTextColumn Header="IsDiffer" Binding="{Binding Path=IsDiffer, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  Visibility="Hidden"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <Button Width="auto" 
+                    Height="40" 
+                    Margin="10,0" 
+                    Content="Экспорт данных по выбранному пользователю" 
+                    FontSize="18"
+                    Command="{Binding SelectedUserExportCommand}"/>
+        </StackPanel>
         <Grid Grid.Row="1" Grid.Column="1" Margin="10">
             <lchart:CartesianChart ZoomingSpeed="-1" DisableAnimations="True">
                 <lchart:CartesianChart.DataTooltip>
@@ -76,9 +94,7 @@
                     </lchart:Axis>
                 </lchart:CartesianChart.AxisY>
                 <lchart:CartesianChart.Series>
-                    <lchart:LineSeries Stroke="DarkBlue" StrokeThickness="2" Values="{Binding SineGraphValues,Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" DataLabels="False" DataLabelsTemplate="{Binding Users.Steps,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-
-                    </lchart:LineSeries>
+                    <lchart:LineSeries Stroke="DarkBlue" StrokeThickness="2" Values="{Binding SineGraphValues,Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" DataLabels="False" Configuration="{Binding Mapper,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" PointGeometrySize="20"/>
                 </lchart:CartesianChart.Series>
             </lchart:CartesianChart>
 
