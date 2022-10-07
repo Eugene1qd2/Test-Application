@@ -21,9 +21,20 @@ namespace DataAnalysisApplication.MVVM.ViewModels
         private int _maxSteps;
 
         private int _selectedIndex=1;
+        private ChartValues<ObservablePoint> _sineGraphValues;
 
-
-        public ChartValues<ObservablePoint> SineGraphValues { get; private set; }
+        public ChartValues<ObservablePoint> SineGraphValues 
+        {
+            get
+            {
+                return _sineGraphValues;
+            }
+            private set 
+            {
+                _sineGraphValues = value;
+                OnPropertyChanged();
+            }
+        }
 
         public int Days
         {
@@ -47,9 +58,9 @@ namespace DataAnalysisApplication.MVVM.ViewModels
             {
                 _selectedIndex = value;
                 Console.WriteLine(value);
-                OnPropertyChanged();
-
                 ChangeSineGraphValues();
+
+                OnPropertyChanged();
             }
         }
 
@@ -79,45 +90,34 @@ namespace DataAnalysisApplication.MVVM.ViewModels
             }
         }
 
-        public ICommand DisplayUserDataCommand { get; set; }
-        public ICommand ChangePeriodCommand { get; set; }
-
         public DataAnalysisWindowViewModel()
         {
             Days = 30;
             MaxSteps = 100000;
             races = UserRepository.GetRaces(Days);
-            Users = UserRepository.GetUsers(races);
+            Users = UserRepository.GetUsers(races,Days);
 
             ChangeSineGraphValues();
-            //DisplayUserDataCommand = new ViewModelCommand(ExecuteDisplayUserDataCommand);
-            //ChangePeriodCommand = new ViewModelCommand(ExecuteChangePeriodCommand);
         }
 
         private void ChangeSineGraphValues()
         {
-            SineGraphValues = new ChartValues<ObservablePoint>();
+            MaxSteps = Users[SelectedIndex].BestResult + 10000;
+            var chart= new ChartValues<ObservablePoint>();
             UserModel SelectedUser = Users[SelectedIndex];
             for (int x = 0; x < Days; x++)
             {
                 var point = new ObservablePoint()
                 {
-                    X = x,
-                    Y = SelectedUser.Steps[x]
+                    X = x + 1,
+                    Y = SelectedUser.Steps.ContainsKey(x) ? SelectedUser.Steps[x] : 0
                 };
 
-                SineGraphValues.Add(point);
+                chart.Add(point);
             }
-        }
-        //private void ExecuteChangePeriodCommand(object obj)
-        //{
-        //    throw new NotImplementedException();
-        //}
+            SineGraphValues = chart;
 
-        //private void ExecuteDisplayUserDataCommand(object obj)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        }
 
     }
 }

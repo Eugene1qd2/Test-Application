@@ -12,7 +12,7 @@ namespace DataAnalysisApplication.MVVM.Models
         public int AverageSteps { get; set; }
         public int BestResult { get; set; }
         public int WorseResult { get; set; }
-        public List<int> Steps { get; set; }
+        public Dictionary<int,int> Steps { get; set; }
 
         public UserModel(string user, int averageSteps, int bestResult, int worseResult)
         {
@@ -22,22 +22,13 @@ namespace DataAnalysisApplication.MVVM.Models
             WorseResult = worseResult;
         }
 
-        public UserModel(string user, List<int> steps)
-        {
-            User = user;
-            AverageSteps = (int)steps.Average();
-            BestResult = steps.Max();
-            WorseResult = steps.Min();
-            Steps = steps;
-        }
-
         public UserModel(string user, Dictionary<int, int> steps)
         {
             User = user;
             AverageSteps = (int)steps.Values.Average();
             BestResult = steps.Values.Max();
             WorseResult = steps.Values.Min();
-            Steps = steps.Values.ToList();
+            Steps = steps;
         }
     }
 }

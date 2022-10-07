@@ -11,10 +11,10 @@ namespace DataAnalysisApplication.Repositories
 {
     public class UserRepository
     {
-        public static List<UserModel> GetUsers(List<List<UserRaceModel>> races)
+        public static List<UserModel> GetUsers(List<List<UserRaceModel>> races, int days)
         {
             Dictionary<string,Dictionary<int,int>> UserStats = new Dictionary<string, Dictionary<int, int>>();
-            for (int i = 0; i < races.Count; i++)
+            for (int i = 0; i < days; i++)
             {
                 for (int j = 0; j < races[i].Count; j++)
                 {
@@ -25,7 +25,9 @@ namespace DataAnalysisApplication.Repositories
                     UserStats[races[i][j].User].Add(i, races[i][j].Steps);
                 }
             }
+
             List<UserModel> users = new List<UserModel>();
+
             foreach (var userStat in UserStats)
             {
                 users.Add(new UserModel(userStat.Key, userStat.Value));
