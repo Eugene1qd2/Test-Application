@@ -144,11 +144,12 @@ namespace DataAnalysisApplication.MVVM.ViewModels
             MaxSteps = SelectedUser.BestResult + 10000;
 
             var chart = new ChartValues<ObservableValue>(); // создаю и заполняю точки для отображения диаграммы. Использовал Nuget пакет LiveCharts.WPF
-            for (int x = 1; x <=Days; x++)
+            for (int x = 0; x <=Days; x++)
             {
                 var point = new ObservableValue()
                 {
                     Value = SelectedUser.UserRaces.Count(item=>item.Day==x)>0 ? SelectedUser.UserRaces.Where(item=>item.Day==x).First().Steps : 0 // проверка был ли в этот день забег у пользователя или нет
+                    
                 };
                 chart.Add(point);
             }

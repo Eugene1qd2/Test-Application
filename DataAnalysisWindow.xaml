@@ -80,7 +80,7 @@
                     <lchart:DefaultTooltip Foreground="#233055" Background="AliceBlue"/>
                 </lchart:CartesianChart.DataTooltip>
                 <lchart:CartesianChart.AxisX>
-                    <lchart:Axis MinValue="0"  MaxValue="{Binding Days, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ShowLabels="True">
+                    <lchart:Axis MinValue="1"  MaxValue="{Binding Days, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ShowLabels="False">
                         <lchart:Axis.Separator>
                             <lchart:Separator StrokeThickness="0"/>
                         </lchart:Axis.Separator>
@@ -94,7 +94,7 @@
                     </lchart:Axis>
                 </lchart:CartesianChart.AxisY>
                 <lchart:CartesianChart.Series>
-                    <lchart:LineSeries Stroke="DarkBlue" StrokeThickness="2" Values="{Binding SineGraphValues,Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" DataLabels="False" Configuration="{Binding Mapper,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" PointGeometrySize="20"/>
+                    <lchart:LineSeries Stroke="DarkBlue" StrokeThickness="2" Values="{Binding SineGraphValues,Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" DataLabels="False" Configuration="{Binding Mapper,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" PointGeometrySize="15"/>
                 </lchart:CartesianChart.Series>
             </lchart:CartesianChart>
 
